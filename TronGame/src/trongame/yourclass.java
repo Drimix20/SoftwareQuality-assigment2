@@ -9,26 +9,39 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.util.ArrayList;
+import java.util.List;
 
+/**
+ * Ahoj, mrkni se na to. Nejdrive jsem trochu upravil tridy yourClass. A pak zacal tvorit tridu Player. No narazil jsem na neocekavane chovani, kdyz
+ * jsem nahrazoval path[x|y][1|2] normalne listem Point. Hra padala. Nevim, jakym zpusobem vyresit ten prunik cest jednotlivych hracu. Idea je takova,
+ * ze budu mit zadefinovany list hracu a po kazdeho se vola jeho nadefinovane ovladani, jeho metoda vykresleni, pohybu atd... Celkove je to jakesi moc
+ * provazane. Zkus se na to zitra podivat. Ja se k netu dostanu az nekdy kolem 6.
+ *
+ * @author Drimal
+ */
 public class yourclass extends Core implements KeyListener, MouseListener,
         MouseMotionListener {
 
-    int centrex1 = 40;
-    int centrey1 = 40;
     int centrex2 = 600;
     int centrey2 = 440;
-    int currentDirection1 = 1;
-    int currentDirection2 = 3;
+    Player playerOne = new Player(40, 40, Color.green, KeyEvent.VK_UP, KeyEvent.VK_DOWN, KeyEvent.VK_LEFT, KeyEvent.VK_RIGHT);
+    Player playerTwho = new Player(600, 440, Color.red, KeyEvent.VK_W, KeyEvent.VK_S, KeyEvent.VK_A, KeyEvent.VK_D);
+    PlayerDirection playerOneDirection = PlayerDirection.right;
+    PlayerDirection playerTwoDirection = PlayerDirection.left;
     int moveAmount = 5;
-    ArrayList<Integer> pathx1 = new ArrayList();
-    ArrayList<Integer> pathy1 = new ArrayList();
-    ArrayList<Integer> pathx2 = new ArrayList();
-    ArrayList<Integer> pathy2 = new ArrayList();
+
+    List<Integer> pathx2 = new ArrayList();
+    List<Integer> pathy2 = new ArrayList();
 
     public void init() {
         super.init();
 
         Window w = sm.getFullScreenWindow();
+        //pridani uzivatele1 pro ovladani
+        w.addKeyListener(playerOne);
+        //ovladani uzivatele2 je v metode KeyPressed v teto tride, implementace z KeyListener.
+        //Kdyz jsem dal KeyListener do okna w, tak jsem 2 nastavenimi ovladal vsehny hrace, coz je spatne.
+        //Jednim listenerem chci ovladat prave toho hrace.
         w.addKeyListener(this);
         w.addMouseListener(this);
         w.addMouseMotionListener(this);
@@ -39,59 +52,30 @@ public class yourclass extends Core implements KeyListener, MouseListener,
     }
 
     public void draw(Graphics2D g) {
-        switch (currentDirection1) {
-            case 0:
-                if (centrey1 > 0) {
-                    centrey1 -= moveAmount;
-                } else {
-                    centrey1 = sm.getHeight();
-                }
-                break;
-            case 1:
-                if (centrex1 < sm.getWidth()) {
-                    centrex1 += moveAmount;
-                } else {
-                    centrex1 = 0;
-                }
-                break;
-            case 2:
-                if (centrey1 < sm.getHeight()) {
-                    centrey1 += moveAmount;
-                } else {
-                    centrey1 = 0;
-                }
-                break;
-            case 3:
-                if (centrex1 > 0) {
-                    centrex1 -= moveAmount;
-                } else {
-                    centrex1 = sm.getWidth();
-                }
-                break;
-        }
-        switch (currentDirection2) {
-            case 0:
+        playerOne.move();
+        switch (playerTwoDirection) {
+            case up:
                 if (centrey2 > 0) {
                     centrey2 -= moveAmount;
                 } else {
                     centrey2 = sm.getHeight();
                 }
                 break;
-            case 1:
+            case right:
                 if (centrex2 < sm.getWidth()) {
                     centrex2 += moveAmount;
                 } else {
                     centrex2 = 0;
                 }
                 break;
-            case 2:
+            case down:
                 if (centrey2 < sm.getHeight()) {
                     centrey2 += moveAmount;
                 } else {
                     centrey2 = 0;
                 }
                 break;
-            case 3:
+            case left:
                 if (centrex2 > 0) {
                     centrex2 -= moveAmount;
                 } else {
@@ -99,59 +83,79 @@ public class yourclass extends Core implements KeyListener, MouseListener,
                 }
                 break;
         }
-        for (int x = 0; x < pathx1.size(); x++) {
-            if (((centrex1 == pathx1.get(x)) && (centrey1 == pathy1.get(x))) || ((centrex2 == pathx2.get(x)) && (centrey2 == pathy2.get(x))) || ((centrex1 == pathx2.get(x)) && (centrey1 == pathy2.get(x))) || ((centrex2 == pathx1.get(x)) && (centrey2 == pathy1.get(x)))) {
+        List<Integer> pathx1 = playerOne.getPathx1();
+        List<Integer> pathy1 = playerOne.getPathy1();
+
+        //Otazka jakym zpusobem to resit pro tento pripad:
+        /*
+         for(Player player : allPlayers){
+         if(doslo ke kolizi s nejakym hracem?){
+         System.exit(0);
+         }
+         }
+         */
+        for (int i = 0; i < pathx1.size(); i++) {
+            if (((playerOne.getCurrentPositionX() == pathx1.get(i)) && (playerOne.getCurrentPositionY() == pathy1.get(i))) || ((centrex2 == pathx2.get(i)) && (centrey2 == pathy2.get(i))) || ((playerOne.getCurrentPositionX() == pathx2.get(i)) && (playerOne.getCurrentPositionY() == pathy2.get(i))) || ((centrex2 == pathx1.get(i)) && (centrey2 == pathy1.get(i)))) {
                 System.exit(0);
             }
         }
-        pathx1.add(centrex1);
-        pathy1.add(centrey1);
+        playerOne.addCurrentPositionToPathx1();
+        playerOne.addCurrentPositionToPathy1();
         pathx2.add(centrex2);
         pathy2.add(centrey2);
+
+        //nastaveni pozadi
         g.setColor(Color.BLACK);
         g.fillRect(0, 0, sm.getWidth(), sm.getHeight());
-        for (int x = 0; x < pathx1.size(); x++) {
-            g.setColor(Color.green);
-            g.fillRect(pathx1.get(x), pathy1.get(x), 10, 10);
+
+        playerOne.draw(g);
+        for (int i = 0; i < pathx1.size(); i++) {
             g.setColor(Color.red);
-            g.fillRect(pathx2.get(x), pathy2.get(x), 10, 10);
+            g.fillRect(pathx2.get(i), pathy2.get(i), 10, 10);
         }
     }
 
     public void keyPressed(KeyEvent e) {
-        if (e.getKeyCode() == KeyEvent.VK_UP) {
-            if (currentDirection1 != 2) {
-                currentDirection1 = 0;
-            }
-        } else if (e.getKeyCode() == KeyEvent.VK_DOWN) {
-            if (currentDirection1 != 0) {
-                currentDirection1 = 2;
-            }
-        } else if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
-            if (currentDirection1 != 3) {
-                currentDirection1 = 1;
-            }
-        } else if (e.getKeyCode() == KeyEvent.VK_LEFT) {
-            if (currentDirection1 != 1) {
-                currentDirection1 = 3;
-            }
-        }
         if (e.getKeyCode() == KeyEvent.VK_W) {
-            if (currentDirection2 != 2) {
-                currentDirection2 = 0;
+            if (playerTwoDirection != PlayerDirection.down) {
+                playerTwoDirection = PlayerDirection.up;
             }
         } else if (e.getKeyCode() == KeyEvent.VK_S) {
-            if (currentDirection2 != 0) {
-                currentDirection2 = 2;
+            if (playerTwoDirection != PlayerDirection.up) {
+                playerTwoDirection = PlayerDirection.down;
             }
         } else if (e.getKeyCode() == KeyEvent.VK_D) {
-            if (currentDirection2 != 3) {
-                currentDirection2 = 1;
+            if (playerTwoDirection != PlayerDirection.left) {
+                playerTwoDirection = PlayerDirection.right;
             }
         } else if (e.getKeyCode() == KeyEvent.VK_A) {
-            if (currentDirection2 != 1) {
-                currentDirection2 = 3;
+            if (playerTwoDirection != PlayerDirection.right) {
+                playerTwoDirection = PlayerDirection.left;
             }
+        }
+    }
+
+    private void moveRight() {
+        if (playerOneDirection != PlayerDirection.left) {
+            playerOneDirection = PlayerDirection.right;
+        }
+    }
+
+    private void moveLeft() {
+        if (playerOneDirection != PlayerDirection.right) {
+            playerOneDirection = PlayerDirection.left;
+        }
+    }
+
+    private void moveDown() {
+        if (playerOneDirection != PlayerDirection.up) {
+            playerOneDirection = PlayerDirection.down;
+        }
+    }
+
+    private void moveUp() {
+        if (playerOneDirection != PlayerDirection.down) {
+            playerOneDirection = PlayerDirection.up;
         }
     }
 
@@ -184,6 +188,127 @@ public class yourclass extends Core implements KeyListener, MouseListener,
     }
 
     public void mouseMoved(MouseEvent e) {
+
+    }
+
+    public static enum PlayerDirection {
+
+        up(0), right(1), down(2), left(3);
+
+        private int val;
+
+        private PlayerDirection(int val) {
+            this.val = val;
+        }
+    }
+
+    public class Player implements KeyListener {
+
+        private int currentPositionX;
+        private int currentPositionY;
+        private Color playerColor;
+        private int up;
+        private int down;
+        private int right;
+        private int left;
+
+        List<Integer> pathx1 = new ArrayList();
+        List<Integer> pathy1 = new ArrayList();
+
+        public Player(int centrex1, int centrey1, Color playerColor, int up, int down, int left, int right) {
+            this.currentPositionX = centrex1;
+            this.currentPositionY = centrey1;
+            this.playerColor = playerColor;
+            this.up = up;
+            this.left = left;
+            this.down = down;
+            this.right = right;
+        }
+
+        public int getCurrentPositionX() {
+            return currentPositionX;
+        }
+
+        public int getCurrentPositionY() {
+            return currentPositionY;
+        }
+
+        public List<Integer> getPathx1() {
+            return pathx1;
+        }
+
+        public void addCurrentPositionToPathx1() {
+            pathx1.add(currentPositionX);
+        }
+
+        public void addCurrentPositionToPathy1() {
+            pathy1.add(currentPositionY);
+        }
+
+        public List<Integer> getPathy1() {
+            return pathy1;
+        }
+
+        @Override
+        public void keyPressed(KeyEvent e) {
+            if (e.getKeyCode() == up) {
+                moveUp();
+            } else if (e.getKeyCode() == down) {
+                moveDown();
+            } else if (e.getKeyCode() == right) {
+                moveRight();
+            } else if (e.getKeyCode() == left) {
+                moveLeft();
+            }
+        }
+
+        @Override
+        public void keyTyped(KeyEvent e) {
+        }
+
+        @Override
+        public void keyReleased(KeyEvent e) {
+        }
+
+        public void draw(Graphics2D g) {
+            for (int i = 0; i < pathx1.size(); i++) {
+                g.setColor(playerColor);
+                g.fillRect(pathx1.get(i), pathy1.get(i), 10, 10);
+            }
+        }
+
+        public void move() {
+            switch (playerOneDirection) {
+                case up:
+                    if (currentPositionY > 0) {
+                        currentPositionY -= moveAmount;
+                    } else {
+                        currentPositionY = sm.getHeight();
+                    }
+                    break;
+                case right:
+                    if (currentPositionX < sm.getWidth()) {
+                        currentPositionX += moveAmount;
+                    } else {
+                        currentPositionX = 0;
+                    }
+                    break;
+                case down:
+                    if (currentPositionY < sm.getHeight()) {
+                        currentPositionY += moveAmount;
+                    } else {
+                        currentPositionY = 0;
+                    }
+                    break;
+                case left:
+                    if (currentPositionX > 0) {
+                        currentPositionX -= moveAmount;
+                    } else {
+                        currentPositionX = sm.getWidth();
+                    }
+                    break;
+            }
+        }
 
     }
 }
