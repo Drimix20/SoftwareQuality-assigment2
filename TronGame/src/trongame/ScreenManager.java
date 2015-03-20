@@ -36,7 +36,7 @@ public class ScreenManager {
         return vc.getDisplayMode();
     }
 
-    public boolean displayModesMatch(DisplayMode m1, DisplayMode m2) {
+    private boolean displayModesMatch(DisplayMode m1, DisplayMode m2) {
         if (m1.getWidth() != m2.getWidth() || m1.getHeight() != m2.getHeight()) {
             return false;
         }
