@@ -1,4 +1,4 @@
-package trongame;
+package trongame.ournew;
 
 /**
  *

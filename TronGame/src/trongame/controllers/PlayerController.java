@@ -6,7 +6,7 @@
 package trongame.controllers;
 
 import java.awt.event.KeyListener;
-import trongame.MovementDirection;
+import trongame.ournew.MovementDirection;
 
 /**
  *

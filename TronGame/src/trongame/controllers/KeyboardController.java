@@ -1,7 +1,7 @@
 package trongame.controllers;
 
 import java.awt.event.KeyEvent;
-import trongame.MovementDirection;
+import trongame.ournew.MovementDirection;
 
 /**
  *
