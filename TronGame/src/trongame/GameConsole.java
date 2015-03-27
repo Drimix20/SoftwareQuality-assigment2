@@ -78,21 +78,19 @@ public class GameConsole {
 
     public void draw(Graphics2D g) {
         drawBlackBackground(g);
+
+        //TODO nemelo by byt v draw metode
         for (Player player : players) {
-            gameCore.movePlayer(player, sm);
+            player.movePlayer(sm);
         }
 
-        //TODO pul matice test
         for (int i = 0; i < players.size(); i++) {
             Player playerOne = players.get(i);
             for (int j = 0; j < players.size(); j++) {
                 Player playerTwo = players.get(j);
-                if (playerOne == playerTwo) {
-                    continue;
-                } else {
-                    if (playerOne.isInCollisionWith(playerTwo)) {
-                        System.exit(0);
-                    }
+
+                if (playerOne.isInCollisionWith(playerTwo)) {
+                    System.exit(0);
                 }
 
             }
@@ -116,7 +114,6 @@ public class GameConsole {
         while (running) {
             long timePassed = System.currentTimeMillis() - cumTime;
             cumTime += timePassed;
-            gameCore.update(timePassed);
             Graphics2D g = sm.getGraphics();
             draw(g);
             g.dispose();

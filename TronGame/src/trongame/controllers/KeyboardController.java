@@ -15,7 +15,7 @@ public class KeyboardController implements PlayerController {
     private int keyRightMapping;
     private int keyLeftMapping;
 
-    public KeyboardController(MovementDirection initialDirectionOfMove, int keyUpMapping, int keyDownMapping, int keyRightMapping, int keyLeftMapping) {
+    public KeyboardController(MovementDirection initialDirectionOfMove, int keyUpMapping, int keyDownMapping, int keyLeftMapping, int keyRightMapping) {
         this.directionOfMove = initialDirectionOfMove;
         this.keyUpMapping = keyUpMapping;
         this.keyDownMapping = keyDownMapping;

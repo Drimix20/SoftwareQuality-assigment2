@@ -5,6 +5,8 @@ import java.awt.Graphics2D;
 import java.awt.Point;
 import java.util.ArrayList;
 import java.util.List;
+import trongame.Core;
+import trongame.ScreenManager;
 import trongame.controllers.PlayerController;
 
 /**
@@ -62,6 +64,55 @@ public class Player {
 
     public boolean isInCollisionWith(Player player) {
         List<Point> tmp = new ArrayList<>(player.positionHistory);
+        int pathLength = player.positionHistory.size();
+        int lastPathIndex = pathLength - 1;
+
+        //kolize sam se sebou
+        if (this.equals(player)) {
+            tmp.remove(lastPathIndex);
+            return tmp.contains(player.positionHistory.get(lastPathIndex));
+        }
+
         return tmp.removeAll(this.positionHistory);
+    }
+
+    public void movePlayer(ScreenManager screenManager) {
+        MovementDirection playerDirection = this.getPlayerController().getPlayerDirection();
+        int currentPositionX = this.getCurrentPositionX();
+        int currentPositionY = this.getCurrentPositionY();
+        int windowWidth = screenManager.getWidth();
+        int windowHeight = screenManager.getHeight();
+        switch (playerDirection) {
+            case up:
+                if (currentPositionY > 0) {
+                    currentPositionY -= Core.MOVE_AMOUNT;
+                } else {
+                    currentPositionY = windowHeight;
+                }
+                break;
+            case right:
+                if (currentPositionX < windowWidth) {
+                    currentPositionX += Core.MOVE_AMOUNT;
+                } else {
+                    currentPositionX = 0;
+                }
+                break;
+            case down:
+                if (currentPositionY < windowHeight) {
+                    currentPositionY += Core.MOVE_AMOUNT;
+                } else {
+                    currentPositionY = 0;
+                }
+                break;
+            case left:
+                if (currentPositionX > 0) {
+                    currentPositionX -= Core.MOVE_AMOUNT;
+                } else {
+                    currentPositionX = windowWidth;
+                }
+                break;
+        }
+        Point point = new Point(currentPositionX, currentPositionY);
+        this.addCurrentPositionToHistory(point);
     }
 }
