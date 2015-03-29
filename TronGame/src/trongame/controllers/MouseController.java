@@ -3,7 +3,6 @@ package trongame.controllers;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import trongame.ournew.MovementDirection;
-import static trongame.ournew.MovementDirection.*;
 
 /**
  *
@@ -33,27 +32,14 @@ public class MouseController implements PlayerController, MouseListener {
 
     @Override
     public void mouseClicked(MouseEvent e) {
+        int directionIndex = directionOfMove.ordinal();
         if (e.getButton() == keyLeftMapping) {
-            if (directionOfMove == UP) {
-                directionOfMove = LEFT;
-            } else if (directionOfMove == LEFT) {
-                directionOfMove = DOWN;
-            } else if (directionOfMove == DOWN) {
-                directionOfMove = RIGHT;
-            } else if (directionOfMove == RIGHT) {
-                directionOfMove = UP;
-            }
-        } else if (e.getButton() == keyLeftMapping) {
-            if (directionOfMove == UP) {
-                directionOfMove = RIGHT;
-            } else if (directionOfMove == RIGHT) {
-                directionOfMove = DOWN;
-            } else if (directionOfMove == DOWN) {
-                directionOfMove = LEFT;
-            } else if (directionOfMove == LEFT) {
-                directionOfMove = UP;
-            }
+            directionIndex++;
+        } else if (e.getButton() == keyRightMapping) {
+            directionIndex--;
         }
+        //TODO okomentovat
+        directionOfMove = MovementDirection.values()[(directionIndex + 4) % 4];
     }
 
     @Override

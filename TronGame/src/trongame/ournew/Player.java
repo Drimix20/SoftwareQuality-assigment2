@@ -5,40 +5,44 @@ import java.awt.Graphics2D;
 import java.awt.Point;
 import java.util.ArrayList;
 import java.util.List;
-import trongame.Core;
-import trongame.ScreenManager;
 import trongame.controllers.PlayerController;
 
 /**
  *
  * @author Drimal
  */
-public class Player {
+public class Player implements IPlayer {
 
-    PlayerController playerKeyboardController;
-    PlayerController playerMouseController;
-
+    private int MOVE_AMOUNT = 10;
+    private PlayerController playerKeyboardController;
+    private PlayerController playerMouseController;
     private Color playerColor;
-
     private List<Point> positionHistory;
 
-    public Player(int centrex1, int centrey1, Color playerColor, MovementDirection direction,
+    public Player(Point startPosition, Color playerColor, MovementDirection direction,
             PlayerController keyboardController) {
 
         positionHistory = new ArrayList<>();
-        positionHistory.add(new Point(centrex1, centrey1));
+        positionHistory.add(startPosition);
         this.playerColor = playerColor;
         playerKeyboardController = keyboardController;
     }
 
+    public void setMOVE_AMOUNT(int MOVE_AMOUNT) {
+        this.MOVE_AMOUNT = MOVE_AMOUNT;
+    }
+
+    @Override
     public PlayerController getPlayerMouseController() {
         return playerMouseController;
     }
 
+    @Override
     public void setPlayerMouseController(PlayerController playerMouseController) {
         this.playerMouseController = playerMouseController;
     }
 
+    @Override
     public PlayerController getPlayerKeyboardController() {
         return playerKeyboardController;
     }
@@ -47,22 +51,27 @@ public class Player {
         return positionHistory.get(positionHistory.size() - 1);
     }
 
+    @Override
     public int getCurrentPositionX() {
         return getCurrentPosition().x;
     }
 
+    @Override
     public int getCurrentPositionY() {
         return getCurrentPosition().y;
     }
 
+    @Override
     public void addCurrentPositionToHistory(Point point) {
         positionHistory.add(point);
     }
 
+    @Override
     public Point getPositionHistory(int index) {
         return positionHistory.get(index);
     }
 
+    @Override
     public void drawPath(Graphics2D g) {
         for (int i = 0; i < positionHistory.size(); i++) {
             g.setColor(playerColor);
@@ -71,12 +80,12 @@ public class Player {
         }
     }
 
+    @Override
     public boolean isInCollisionWith(Player player) {
         List<Point> tmp = new ArrayList<>(player.positionHistory);
         int pathLength = player.positionHistory.size();
         int lastPathIndex = pathLength - 1;
 
-        //kolize sam se sebou
         if (this.equals(player)) {
             tmp.remove(lastPathIndex);
             return tmp.contains(player.positionHistory.get(lastPathIndex));
@@ -94,38 +103,37 @@ public class Player {
         }
     }
 
-    public void movePlayer(ScreenManager screenManager) {
+    @Override
+    public void movePlayer(int windowWidth, int windowHeight) {
         MovementDirection playerDirection = getPlayerCurrentDirection();
 
         int currentPositionX = this.getCurrentPositionX();
         int currentPositionY = this.getCurrentPositionY();
-        int windowWidth = screenManager.getWidth();
-        int windowHeight = screenManager.getHeight();
         switch (playerDirection) {
             case UP:
                 if (currentPositionY > 0) {
-                    currentPositionY -= Core.MOVE_AMOUNT;
+                    currentPositionY -= MOVE_AMOUNT;
                 } else {
                     currentPositionY = windowHeight;
                 }
                 break;
             case RIGHT:
                 if (currentPositionX < windowWidth) {
-                    currentPositionX += Core.MOVE_AMOUNT;
+                    currentPositionX += MOVE_AMOUNT;
                 } else {
                     currentPositionX = 0;
                 }
                 break;
             case DOWN:
                 if (currentPositionY < windowHeight) {
-                    currentPositionY += Core.MOVE_AMOUNT;
+                    currentPositionY += MOVE_AMOUNT;
                 } else {
                     currentPositionY = 0;
                 }
                 break;
             case LEFT:
                 if (currentPositionX > 0) {
-                    currentPositionX -= Core.MOVE_AMOUNT;
+                    currentPositionX -= MOVE_AMOUNT;
                 } else {
                     currentPositionX = windowWidth;
                 }

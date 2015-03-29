@@ -1,23 +1,18 @@
 package trongame;
 
-import trongame.ournew.Player;
-import trongame.ournew.MovementDirection;
-import java.awt.Color;
-import java.awt.DisplayMode;
-import java.awt.Font;
-
-import java.awt.Graphics2D;
-import java.awt.Point;
-import java.awt.Window;
+import java.awt.*;
 import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import trongame.controllers.KeyboardController;
 import trongame.controllers.MouseController;
+import trongame.ournew.IPlayer;
+import trongame.ournew.MovementDirection;
+import trongame.ournew.Player;
+import trongame.ournew.WindowRenderer;
 
 /**
  *
@@ -25,110 +20,63 @@ import trongame.controllers.MouseController;
  */
 public class GameConsole {
 
-    private Core gameCore;
+    private GameEngine gameCore;
     private boolean running;
-    private ScreenManager sm;
-
-    private List<Player> players;
-
-    public void stop() {
-        running = false;
-    }
+    private WindowRenderer windowRenderer;
+    private List<IPlayer> players;
 
     public GameConsole() {
         players = new ArrayList<>();
-        gameCore = Core.getInstance();
-        this.sm = new ScreenManager();
-        DisplayMode dm = sm.findFirstCompatibaleMode(gameCore.getSupportedDisplayModes());
-        sm.setFullScreen(dm);
-        init();
-    }
+        windowRenderer = new WindowRenderer();
+        Window w = windowRenderer.creteGameWindow();
 
-    public void init() {
-        //core
+        this.running = true;
 
-        Window w = sm.getFullScreenWindow();
-        w.setFont(new Font("Arial", Font.PLAIN, 20));
-        w.setBackground(Color.WHITE);
-        w.setForeground(Color.RED);
-        w.setCursor(w.getToolkit().createCustomCursor(new BufferedImage(3, 3, BufferedImage.TYPE_INT_ARGB), new Point(0, 0), "null"));
-        running = true;
-        //core
-
-        //Define players with their controllers (easy future update to mouse listener)
+        //Define players with their controllers
         KeyboardController playerOneController = new KeyboardController(MovementDirection.RIGHT, KeyEvent.VK_UP, KeyEvent.VK_DOWN, KeyEvent.VK_LEFT, KeyEvent.VK_RIGHT);
-        Player playerOne = new Player(40, 40, Color.green, MovementDirection.RIGHT, playerOneController);
+        Player playerOne = new Player(new Point(40, 40), Color.green, MovementDirection.RIGHT, playerOneController);
         playerOne.setPlayerMouseController(new MouseController(MovementDirection.RIGHT, MouseEvent.BUTTON1, MouseEvent.BUTTON3));
         players.add(playerOne);
         KeyboardController playerTwoController = new KeyboardController(MovementDirection.LEFT, KeyEvent.VK_W, KeyEvent.VK_S, KeyEvent.VK_A, KeyEvent.VK_D);
-        players.add(new Player(600, 440, Color.red, MovementDirection.LEFT, playerTwoController));
+        players.add(new Player(new Point(600, 440), Color.red, MovementDirection.LEFT, playerTwoController));
 
-        //register player keylistener
-        for (Player player : players) {
-            w.addKeyListener((KeyListener) player.getPlayerKeyboardController());
-            w.addMouseListener((MouseListener) player.getPlayerMouseController());
-        }
+        gameCore = new GameEngine(players, w);
+
     }
 
-    public static void main(String[] args) {
-        GameConsole gameConsole = new GameConsole();
+    public void runGame() {
         try {
-            gameConsole.gameLoop();
+            gameLoop();
         } finally {
-            gameConsole.restoreGameScreen();
+            windowRenderer.restoreGameScreen();
         }
-    }
-
-    public void restoreGameScreen() {
-        sm.restoreScreen();
-    }
-
-    public void draw(Graphics2D g) {
-        drawBlackBackground(g);
-
-        //TODO nemelo by byt v draw metode
-        for (Player player : players) {
-            player.movePlayer(sm);
-        }
-
-        for (int i = 0; i < players.size(); i++) {
-            Player playerOne = players.get(i);
-            for (int j = 0; j < players.size(); j++) {
-                Player playerTwo = players.get(j);
-
-                if (playerOne.isInCollisionWith(playerTwo)) {
-                    System.exit(0);
-                }
-
-            }
-
-        }
-
-        //vykresleni cest hracu
-        for (Player player : players) {
-            player.drawPath(g);
-        }
-    }
-
-    private void drawBlackBackground(Graphics2D g) {
-        g.setColor(Color.BLACK);
-        g.fillRect(0, 0, sm.getWidth(), sm.getHeight());
     }
 
     public void gameLoop() {
-        long startTime = System.currentTimeMillis();
-        long cumTime = startTime;
         while (running) {
-            long timePassed = System.currentTimeMillis() - cumTime;
-            cumTime += timePassed;
-            Graphics2D g = sm.getGraphics();
-            draw(g);
-            g.dispose();
-            sm.update();
-            try {
-                Thread.sleep(20);
-            } catch (Exception ex) {
+            gameCore.movePlayers(windowRenderer.getScreenWidth(), windowRenderer.getScreenHeight());
+            if (gameCore.detectCollisions()) {
+                stop();
             }
+            windowRenderer.draw(players);
+            afterGameIteration();
+        }
+    }
+
+    private void afterGameIteration() {
+        try {
+            Thread.sleep(20);
+        } catch (InterruptedException ex) {
+            Logger.getLogger(GameConsole.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    private void stop() {
+        try {
+            running = false;
+            Thread.sleep(1500L);
+        } catch (InterruptedException ex) {
+            Logger.getLogger(GameConsole.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 }
