@@ -6,7 +6,7 @@ package trongame.ournew;
  */
 public enum MovementDirection {
 
-    up(0), right(1), down(2), left(3);
+    UP(0), RIGHT(1), DOWN(2), LEFT(3);
 
     private int val;
 

@@ -15,7 +15,8 @@ import trongame.controllers.PlayerController;
  */
 public class Player {
 
-    PlayerController playerController;
+    PlayerController playerKeyboardController;
+    PlayerController playerMouseController;
 
     private Color playerColor;
 
@@ -27,11 +28,19 @@ public class Player {
         positionHistory = new ArrayList<>();
         positionHistory.add(new Point(centrex1, centrey1));
         this.playerColor = playerColor;
-        playerController = keyboardController;
+        playerKeyboardController = keyboardController;
     }
 
-    public PlayerController getPlayerController() {
-        return playerController;
+    public PlayerController getPlayerMouseController() {
+        return playerMouseController;
+    }
+
+    public void setPlayerMouseController(PlayerController playerMouseController) {
+        this.playerMouseController = playerMouseController;
+    }
+
+    public PlayerController getPlayerKeyboardController() {
+        return playerKeyboardController;
     }
 
     private Point getCurrentPosition() {
@@ -76,35 +85,45 @@ public class Player {
         return tmp.removeAll(this.positionHistory);
     }
 
+    private MovementDirection getPlayerCurrentDirection() {
+
+        if (this.playerMouseController != null) {
+            return this.getPlayerMouseController().getPlayerDirection();
+        } else {
+            return this.getPlayerKeyboardController().getPlayerDirection();
+        }
+    }
+
     public void movePlayer(ScreenManager screenManager) {
-        MovementDirection playerDirection = this.getPlayerController().getPlayerDirection();
+        MovementDirection playerDirection = getPlayerCurrentDirection();
+
         int currentPositionX = this.getCurrentPositionX();
         int currentPositionY = this.getCurrentPositionY();
         int windowWidth = screenManager.getWidth();
         int windowHeight = screenManager.getHeight();
         switch (playerDirection) {
-            case up:
+            case UP:
                 if (currentPositionY > 0) {
                     currentPositionY -= Core.MOVE_AMOUNT;
                 } else {
                     currentPositionY = windowHeight;
                 }
                 break;
-            case right:
+            case RIGHT:
                 if (currentPositionX < windowWidth) {
                     currentPositionX += Core.MOVE_AMOUNT;
                 } else {
                     currentPositionX = 0;
                 }
                 break;
-            case down:
+            case DOWN:
                 if (currentPositionY < windowHeight) {
                     currentPositionY += Core.MOVE_AMOUNT;
                 } else {
                     currentPositionY = 0;
                 }
                 break;
-            case left:
+            case LEFT:
                 if (currentPositionX > 0) {
                     currentPositionX -= Core.MOVE_AMOUNT;
                 } else {

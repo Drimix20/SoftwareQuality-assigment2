@@ -10,10 +10,14 @@ import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.Window;
 import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
 import trongame.controllers.KeyboardController;
+import trongame.controllers.MouseController;
 
 /**
  *
@@ -52,14 +56,17 @@ public class GameConsole {
         //core
 
         //Define players with their controllers (easy future update to mouse listener)
-        KeyboardController playerOneController = new KeyboardController(MovementDirection.right, KeyEvent.VK_UP, KeyEvent.VK_DOWN, KeyEvent.VK_LEFT, KeyEvent.VK_RIGHT);
-        players.add(new Player(40, 40, Color.green, MovementDirection.right, playerOneController));
-        KeyboardController playerTwoController = new KeyboardController(MovementDirection.left, KeyEvent.VK_W, KeyEvent.VK_S, KeyEvent.VK_A, KeyEvent.VK_D);
-        players.add(new Player(600, 440, Color.red, MovementDirection.left, playerTwoController));
+        KeyboardController playerOneController = new KeyboardController(MovementDirection.RIGHT, KeyEvent.VK_UP, KeyEvent.VK_DOWN, KeyEvent.VK_LEFT, KeyEvent.VK_RIGHT);
+        Player playerOne = new Player(40, 40, Color.green, MovementDirection.RIGHT, playerOneController);
+        playerOne.setPlayerMouseController(new MouseController(MovementDirection.RIGHT, MouseEvent.BUTTON1, MouseEvent.BUTTON3));
+        players.add(playerOne);
+        KeyboardController playerTwoController = new KeyboardController(MovementDirection.LEFT, KeyEvent.VK_W, KeyEvent.VK_S, KeyEvent.VK_A, KeyEvent.VK_D);
+        players.add(new Player(600, 440, Color.red, MovementDirection.LEFT, playerTwoController));
 
         //register player keylistener
         for (Player player : players) {
-            w.addKeyListener(player.getPlayerController());
+            w.addKeyListener((KeyListener) player.getPlayerKeyboardController());
+            w.addMouseListener((MouseListener) player.getPlayerMouseController());
         }
     }
 

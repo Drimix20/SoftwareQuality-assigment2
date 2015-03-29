@@ -1,13 +1,14 @@
 package trongame.controllers;
 
 import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import trongame.ournew.MovementDirection;
 
 /**
  *
  * @author Drimal
  */
-public class KeyboardController implements PlayerController {
+public class KeyboardController implements PlayerController, KeyListener {
 
     private MovementDirection directionOfMove;
     private int keyUpMapping;
@@ -37,26 +38,26 @@ public class KeyboardController implements PlayerController {
     }
 
     private void moveRight() {
-        if (directionOfMove != MovementDirection.left) {
-            directionOfMove = MovementDirection.right;
+        if (directionOfMove != MovementDirection.LEFT) {
+            directionOfMove = MovementDirection.RIGHT;
         }
     }
 
     private void moveLeft() {
-        if (directionOfMove != MovementDirection.right) {
-            directionOfMove = MovementDirection.left;
+        if (directionOfMove != MovementDirection.RIGHT) {
+            directionOfMove = MovementDirection.LEFT;
         }
     }
 
     private void moveDown() {
-        if (directionOfMove != MovementDirection.up) {
-            directionOfMove = MovementDirection.down;
+        if (directionOfMove != MovementDirection.UP) {
+            directionOfMove = MovementDirection.DOWN;
         }
     }
 
     private void moveUp() {
-        if (directionOfMove != MovementDirection.down) {
-            directionOfMove = MovementDirection.up;
+        if (directionOfMove != MovementDirection.DOWN) {
+            directionOfMove = MovementDirection.UP;
         }
     }
 

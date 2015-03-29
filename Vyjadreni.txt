@@ -1,0 +1,39 @@
+Kdyz se spusti nefunguji spravne kolize, projekt se musi chovat stejne jako
+original. (OPRAVENO)
+
+Kazda trida by mela mit opodstatneni pro svou existenci v systemu, tedy pokud
+napriklad neni nikde pouzita neni spravne ji v kodu nechat "pro pripad ze bude
+nekdy treba", od toho je source control 
+
+To same plati pro metody, pokud se neco nepouziva neni duvod to v systemu
+nechavat 
+
+Pokuste se vice zapouzdrit tridy, tedy napriklad player nebude jen hloupy
+dataobject co ma get na x a y na zaklade kterych se pocita jeho pohyb nekde
+jinde, ale presunte kod pro pohyb playera primo do playera (OPRAVENO)
+
+
+Na druhou stranu neni uplne spravne mit draw primo v playerovi pokud je Player
+neco co drzi stav a patri tedy k modelu, co kdyz budoucnu budeme chtit kreslit
+treba jednoho hrace jako ted a jineho pomoci kolecek ()()() ?
+Atributy by meli byt privatni
+V Playerovi by se vam mohla hodit metoda .contains(...) nad kolekci
+Singletoni jsou Zlo TM. pokud je 100% nepotrebujete, nepouzivat. A tady neplati
+ze je 100% potrebujete
+Ify kontroleru if direction != neco then neco se daji elegantne obejit tak, ze
+to, co jimi zjistujete zapouzdrite v MovementDirection
+Obecne se snazte ubrat tech getu a radeji logiku kvuli ktere je tam mate
+presunte blize k datum ktere potrebuji
+Ulohy:
+1 Tady nevidim zadny zavazny problem
+2 Nejsem si uplne jisty jak bych ted engine donutil pracovat s jinou
+implementaci hry nez je Tron, doporucuji depencency injection, tim se vam i kod
+jednoznacneji rozdeli na to co patri k Tronu a co k enginu
+3 Zatim neni implementovano
+4 Neni spravne ze je draw a update ve stejne tride, co kdyz budeme chtit aby se
+hra chovala stejne ale zobrazovat ji budeme treba v jinem rozliseni/jinych
+barvach... ?
+Zaroven by logika specificka pro Tron nemela byt v tridach ktere obsahuji
+kod enginu
+
+Hala
