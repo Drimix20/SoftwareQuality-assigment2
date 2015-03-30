@@ -2,7 +2,6 @@ package trongame;
 
 import java.awt.*;
 import java.awt.image.BufferStrategy;
-import java.awt.image.BufferedImage;
 
 import javax.swing.JFrame;
 
@@ -18,17 +17,13 @@ public class ScreenManager {
                 new DisplayMode(800, 600, 16, 0),
                 new DisplayMode(640, 480, 32, 0),
                 new DisplayMode(640, 480, 24, 0),
-                new DisplayMode(640, 480, 16, 0),};
+                new DisplayMode(640, 480, 16, 0)};
 
     private GraphicsDevice vc;
 
     public ScreenManager() {
         GraphicsEnvironment e = GraphicsEnvironment.getLocalGraphicsEnvironment();
         vc = e.getDefaultScreenDevice();
-    }
-
-    public DisplayMode[] getCompatibleDisplayModes() {
-        return vc.getDisplayModes();
     }
 
     public DisplayMode findFirstCompatibaleMode() {
@@ -41,10 +36,6 @@ public class ScreenManager {
             }
         }
         return null;
-    }
-
-    public DisplayMode getCurrentDM() {
-        return vc.getDisplayMode();
     }
 
     private boolean displayModesMatch(DisplayMode m1, DisplayMode m2) {
@@ -125,16 +116,4 @@ public class ScreenManager {
         }
         vc.setFullScreenWindow(null);
     }
-
-    public BufferedImage createCompatibaleimage(int w, int h, int t) {
-        Window win = vc.getFullScreenWindow();
-        if (win != null) {
-            GraphicsConfiguration gc = win.getGraphicsConfiguration();
-            return gc.createCompatibleImage(w, h, t);
-        } else {
-            return null;
-        }
-
-    }
-
 }
