@@ -30,8 +30,6 @@ public class GameConsole {
         windowRenderer = new WindowRenderer();
         Window w = windowRenderer.creteGameWindow();
 
-        this.running = true;
-
         //Define players with their controllers
         KeyboardController playerOneController = new KeyboardController(MovementDirection.RIGHT, KeyEvent.VK_UP, KeyEvent.VK_DOWN, KeyEvent.VK_LEFT, KeyEvent.VK_RIGHT);
         Player playerOne = new Player(new Point(40, 40), Color.green, MovementDirection.RIGHT, playerOneController);
@@ -41,10 +39,10 @@ public class GameConsole {
         players.add(new Player(new Point(600, 440), Color.red, MovementDirection.LEFT, playerTwoController));
 
         gameCore = new GameEngine(players, w);
-
     }
 
     public void runGame() {
+        this.running = true;
         try {
             gameLoop();
         } finally {
