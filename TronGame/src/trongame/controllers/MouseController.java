@@ -1,6 +1,6 @@
 package trongame.controllers;
 
-import game.core.PlayerController;
+import game.core.IPlayerController;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import game.core.MovementDirection;
@@ -9,7 +9,7 @@ import game.core.MovementDirection;
  *
  * @author Drimal
  */
-public class MouseController implements PlayerController, MouseListener {
+public class MouseController implements IPlayerController, MouseListener {
 
     private MovementDirection directionOfMove;
     private int keyLeftMapping;

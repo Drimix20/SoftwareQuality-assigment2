@@ -7,7 +7,7 @@ import game.core.MovementDirection;
  *
  * @author Drimal
  */
-public interface PlayerController extends EventListener {
+public interface IPlayerController extends EventListener {
 
     /**
      * Return enum represents current player direction of movement

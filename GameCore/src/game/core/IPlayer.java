@@ -1,5 +1,6 @@
 package game.core;
 
+import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Point;
 import java.util.List;
@@ -20,9 +21,11 @@ public interface IPlayer {
 
     List<Point> getHistoryPositions();
 
-    PlayerController getPlayerKeyboardController();
+    Color getPlayerColor();
 
-    PlayerController getPlayerMouseController();
+    IPlayerController getPlayerKeyboardController();
+
+    IPlayerController getPlayerMouseController();
 
     Point getPositionHistory(int index);
 
@@ -30,6 +33,6 @@ public interface IPlayer {
 
     void movePlayer(int windowWidth, int windowHeight);
 
-    void setPlayerMouseController(PlayerController playerMouseController);
+    void setPlayerMouseController(IPlayerController playerMouseController);
 
 }

@@ -1,6 +1,6 @@
 package trongame.controllers;
 
-import game.core.PlayerController;
+import game.core.IPlayerController;
 import game.core.MovementDirection;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -9,7 +9,7 @@ import java.awt.event.KeyListener;
  *
  * @author Drimal
  */
-public class KeyboardController implements PlayerController, KeyListener {
+public class KeyboardController implements IPlayerController, KeyListener {
 
     private MovementDirection directionOfMove;
     private int keyUpMapping;

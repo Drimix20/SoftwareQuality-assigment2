@@ -1,5 +1,6 @@
 package trongame.player;
 
+import game.core.IDrawable;
 import game.core.MovementDirection;
 import game.core.IPlayer;
 import java.awt.Color;
@@ -7,7 +8,7 @@ import java.awt.Graphics2D;
 import java.awt.Point;
 import java.util.ArrayList;
 import java.util.List;
-import game.core.PlayerController;
+import game.core.IPlayerController;
 
 /**
  *
@@ -16,13 +17,14 @@ import game.core.PlayerController;
 public class Player implements IPlayer {
 
     private int MOVE_AMOUNT = 10;
-    private PlayerController playerKeyboardController;
-    private PlayerController playerMouseController;
+    private IPlayerController playerKeyboardController;
+    private IPlayerController playerMouseController;
+    private IDrawable playerRenderer;
     private Color playerColor;
     private List<Point> positionHistory;
 
     public Player(Point startPosition, Color playerColor, MovementDirection direction,
-            PlayerController keyboardController) {
+            IPlayerController keyboardController) {
 
         positionHistory = new ArrayList<>();
         positionHistory.add(startPosition);
@@ -34,18 +36,22 @@ public class Player implements IPlayer {
         this.MOVE_AMOUNT = MOVE_AMOUNT;
     }
 
+    public void setPlayerRenderer(IDrawable renderer) {
+        this.playerRenderer = renderer;
+    }
+
     @Override
-    public PlayerController getPlayerMouseController() {
+    public IPlayerController getPlayerMouseController() {
         return playerMouseController;
     }
 
     @Override
-    public void setPlayerMouseController(PlayerController playerMouseController) {
+    public void setPlayerMouseController(IPlayerController playerMouseController) {
         this.playerMouseController = playerMouseController;
     }
 
     @Override
-    public PlayerController getPlayerKeyboardController() {
+    public IPlayerController getPlayerKeyboardController() {
         return playerKeyboardController;
     }
 
@@ -75,11 +81,17 @@ public class Player implements IPlayer {
 
     @Override
     public void drawPath(Graphics2D g) {
-        for (int i = 0; i < positionHistory.size(); i++) {
-            g.setColor(playerColor);
-            Point point = positionHistory.get(i);
-            g.fillRect(point.x, point.y, 10, 10);
-        }
+//        for (int i = 0; i < positionHistory.size(); i++) {
+//            g.setColor(playerColor);
+//            Point point = positionHistory.get(i);
+//            g.fillRect(point.x, point.y, 10, 10);
+//        }
+        playerRenderer.drawPlayer(g, this);
+    }
+
+    @Override
+    public Color getPlayerColor() {
+        return playerColor;
     }
 
     @Override

@@ -3,17 +3,11 @@ package trongame;
 import game.core.WindowRenderer;
 import game.core.GameEngine;
 import java.awt.*;
-import java.awt.event.KeyEvent;
-import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import trongame.controllers.MouseController;
 import game.core.IPlayer;
-import game.core.MovementDirection;
-import trongame.controllers.KeyboardController;
-import trongame.player.Player;
 
 /**
  *
@@ -29,16 +23,11 @@ public class GameConsole {
     public GameConsole() {
         players = new ArrayList<>();
         windowRenderer = new WindowRenderer();
+    }
+
+    public void registerPlayers(List<IPlayer> players) {
         Window w = windowRenderer.creteGameWindow();
-
-        //Define players with their controllers
-        KeyboardController playerOneController = new KeyboardController(MovementDirection.RIGHT, KeyEvent.VK_UP, KeyEvent.VK_DOWN, KeyEvent.VK_LEFT, KeyEvent.VK_RIGHT);
-        Player playerOne = new Player(new Point(40, 40), Color.green, MovementDirection.RIGHT, playerOneController);
-        playerOne.setPlayerMouseController(new MouseController(MovementDirection.RIGHT, MouseEvent.BUTTON1, MouseEvent.BUTTON3));
-        players.add(playerOne);
-        KeyboardController playerTwoController = new KeyboardController(MovementDirection.LEFT, KeyEvent.VK_W, KeyEvent.VK_S, KeyEvent.VK_A, KeyEvent.VK_D);
-        players.add(new Player(new Point(600, 440), Color.red, MovementDirection.LEFT, playerTwoController));
-
+        this.players = players;
         gameCore = new GameEngine(players, w);
     }
 
