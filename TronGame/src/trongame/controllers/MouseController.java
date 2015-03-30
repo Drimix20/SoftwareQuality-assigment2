@@ -1,8 +1,9 @@
 package trongame.controllers;
 
+import game.core.PlayerController;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import trongame.ournew.MovementDirection;
+import game.core.MovementDirection;
 
 /**
  *

@@ -1,11 +1,9 @@
-package trongame;
+package game.core;
 
 import java.awt.*;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseListener;
-import trongame.ournew.IPlayer;
 import java.util.List;
-import trongame.ournew.Player;
 
 public class GameEngine {
 
@@ -31,7 +29,7 @@ public class GameEngine {
             IPlayer playerOne = players.get(i);
             for (int j = 0; j < players.size(); j++) {
                 IPlayer playerTwo = players.get(j);
-                if (playerOne.isInCollisionWith((Player) playerTwo)) {
+                if (playerOne.isInCollisionWith((IPlayer) playerTwo)) {
                     return true;
                 }
             }

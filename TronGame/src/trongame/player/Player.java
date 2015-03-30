@@ -1,11 +1,13 @@
-package trongame.ournew;
+package trongame.player;
 
+import game.core.MovementDirection;
+import game.core.IPlayer;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Point;
 import java.util.ArrayList;
 import java.util.List;
-import trongame.controllers.PlayerController;
+import game.core.PlayerController;
 
 /**
  *
@@ -81,14 +83,14 @@ public class Player implements IPlayer {
     }
 
     @Override
-    public boolean isInCollisionWith(Player player) {
-        List<Point> tmp = new ArrayList<>(player.positionHistory);
-        int pathLength = player.positionHistory.size();
+    public boolean isInCollisionWith(IPlayer player) {
+        List<Point> tmp = new ArrayList<>(player.getHistoryPositions());
+        int pathLength = player.getHistoryPositions().size();
         int lastPathIndex = pathLength - 1;
 
         if (this.equals(player)) {
             tmp.remove(lastPathIndex);
-            return tmp.contains(player.positionHistory.get(lastPathIndex));
+            return tmp.contains(player.getPositionHistory(lastPathIndex));
         }
 
         return tmp.removeAll(this.positionHistory);
@@ -141,5 +143,10 @@ public class Player implements IPlayer {
         }
         Point point = new Point(currentPositionX, currentPositionY);
         this.addCurrentPositionToHistory(point);
+    }
+
+    @Override
+    public List<Point> getHistoryPositions() {
+        return positionHistory;
     }
 }

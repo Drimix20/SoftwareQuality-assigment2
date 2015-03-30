@@ -1,4 +1,4 @@
-package trongame;
+package game.core;
 
 import java.awt.*;
 import java.awt.image.BufferStrategy;

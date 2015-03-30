@@ -1,5 +1,7 @@
 package trongame;
 
+import game.core.WindowRenderer;
+import game.core.GameEngine;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
@@ -7,12 +9,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import trongame.controllers.KeyboardController;
 import trongame.controllers.MouseController;
-import trongame.ournew.IPlayer;
-import trongame.ournew.MovementDirection;
-import trongame.ournew.Player;
-import trongame.ournew.WindowRenderer;
+import game.core.IPlayer;
+import game.core.MovementDirection;
+import trongame.controllers.KeyboardController;
+import trongame.player.Player;
 
 /**
  *

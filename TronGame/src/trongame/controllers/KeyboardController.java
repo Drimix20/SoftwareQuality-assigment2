@@ -1,8 +1,9 @@
 package trongame.controllers;
 
+import game.core.PlayerController;
+import game.core.MovementDirection;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import trongame.ournew.MovementDirection;
 
 /**
  *

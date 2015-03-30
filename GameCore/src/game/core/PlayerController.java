@@ -1,7 +1,7 @@
-package trongame.controllers;
+package game.core;
 
 import java.util.EventListener;
-import trongame.ournew.MovementDirection;
+import game.core.MovementDirection;
 
 /**
  *

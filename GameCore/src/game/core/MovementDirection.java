@@ -1,4 +1,4 @@
-package trongame.ournew;
+package game.core;
 
 /**
  *

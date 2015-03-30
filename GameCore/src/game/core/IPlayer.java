@@ -1,8 +1,8 @@
-package trongame.ournew;
+package game.core;
 
 import java.awt.Graphics2D;
 import java.awt.Point;
-import trongame.controllers.PlayerController;
+import java.util.List;
 
 /**
  *
@@ -18,13 +18,15 @@ public interface IPlayer {
 
     int getCurrentPositionY();
 
+    List<Point> getHistoryPositions();
+
     PlayerController getPlayerKeyboardController();
 
     PlayerController getPlayerMouseController();
 
     Point getPositionHistory(int index);
 
-    boolean isInCollisionWith(Player player);
+    boolean isInCollisionWith(IPlayer player);
 
     void movePlayer(int windowWidth, int windowHeight);
 

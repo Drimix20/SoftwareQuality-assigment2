@@ -1,4 +1,4 @@
-package trongame.ournew;
+package game.core;
 
 import java.awt.Color;
 import java.awt.DisplayMode;
@@ -8,7 +8,6 @@ import java.awt.Point;
 import java.awt.Window;
 import java.awt.image.BufferedImage;
 import java.util.List;
-import trongame.ScreenManager;
 
 /**
  *
