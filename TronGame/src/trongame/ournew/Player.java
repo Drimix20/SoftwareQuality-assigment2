@@ -28,7 +28,7 @@ public class Player implements IPlayer {
         playerKeyboardController = keyboardController;
     }
 
-    public void setMOVE_AMOUNT(int MOVE_AMOUNT) {
+    public void setMoveAmount(int MOVE_AMOUNT) {
         this.MOVE_AMOUNT = MOVE_AMOUNT;
     }
 
