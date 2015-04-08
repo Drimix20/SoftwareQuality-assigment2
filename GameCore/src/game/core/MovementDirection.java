@@ -6,11 +6,49 @@ package game.core;
  */
 public enum MovementDirection {
 
-    UP(0), RIGHT(1), DOWN(2), LEFT(3);
+    UP, RIGHT, DOWN, LEFT;
 
     private int val;
 
-    private MovementDirection(int val) {
-        this.val = val;
+    public MovementDirection tryChangeTo(MovementDirection newDirection) {
+        switch (newDirection) {
+            case UP:
+                return moveUp(this);
+            case DOWN:
+                return moveDown(this);
+            case LEFT:
+                return moveLeft(this);
+            case RIGHT:
+                return moveRight(this);
+        }
+        return this;
+    }
+
+    private MovementDirection moveRight(MovementDirection directionOfMove) {
+        if (directionOfMove != MovementDirection.LEFT) {
+            return MovementDirection.RIGHT;
+        }
+        return directionOfMove;
+    }
+
+    private MovementDirection moveLeft(MovementDirection directionOfMove) {
+        if (directionOfMove != MovementDirection.RIGHT) {
+            return MovementDirection.LEFT;
+        }
+        return directionOfMove;
+    }
+
+    private MovementDirection moveDown(MovementDirection directionOfMove) {
+        if (directionOfMove != MovementDirection.UP) {
+            return MovementDirection.DOWN;
+        }
+        return directionOfMove;
+    }
+
+    private MovementDirection moveUp(MovementDirection directionOfMove) {
+        if (directionOfMove != MovementDirection.DOWN) {
+            return MovementDirection.UP;
+        }
+        return directionOfMove;
     }
 }

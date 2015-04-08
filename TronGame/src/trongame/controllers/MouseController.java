@@ -27,11 +27,6 @@ public class MouseController implements IPlayerController, MouseListener {
     }
 
     @Override
-    public void setPlayerDirection(MovementDirection direction) {
-        this.directionOfMove = direction;
-    }
-
-    @Override
     public void mouseClicked(MouseEvent e) {
         int directionIndex = directionOfMove.ordinal();
         if (e.getButton() == keyLeftMapping) {
@@ -39,7 +34,7 @@ public class MouseController implements IPlayerController, MouseListener {
         } else if (e.getButton() == keyRightMapping) {
             directionIndex--;
         }
-        //TODO okomentovat
+
         directionOfMove = MovementDirection.values()[(directionIndex + 4) % 4];
     }
 

@@ -12,7 +12,7 @@ import java.awt.Point;
 public class PlayerRenderer implements IDrawable {
 
     @Override
-    public void drawPlayer(Graphics2D g, IPlayer player) {
+    public void draw(Graphics2D g, IPlayer player) {
         int positionsSize = player.getHistoryPositions().size();
         for (int i = 0; i < positionsSize; i++) {
             g.setColor(player.getPlayerColor());

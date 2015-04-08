@@ -1,39 +1,69 @@
 package game.core;
 
-import java.awt.*;
-import java.awt.event.KeyListener;
-import java.awt.event.MouseListener;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
-public class GameEngine {
+public abstract class GameEngine {
 
-    private List<IPlayer> players;
+    protected WindowRenderer windowRenderer;
+    protected boolean running;
+    protected List<IPlayer> players;
+    private int mapWidth;
+    private int mapHeight;
 
-    public GameEngine(List<IPlayer> players, Window w) {
+    public GameEngine(List<IPlayer> players) {
+        windowRenderer = new WindowRenderer();
         this.players = players;
 
+        mapWidth = windowRenderer.getScreenWidth();
+        mapHeight = windowRenderer.getScreenHeight();
+        registerListeners();
+    }
+
+    public void setMapDimension(int width, int height) {
+        this.mapWidth = width;
+        this.mapHeight = height;
+    }
+
+    public void movePlayers() {
         for (IPlayer player : players) {
-            w.addKeyListener((KeyListener) player.getPlayerKeyboardController());
-            w.addMouseListener((MouseListener) player.getPlayerMouseController());
+            player.movePlayer(mapWidth, mapHeight);
         }
     }
 
-    public void movePlayers(int windowWidth, int windowHeight) {
-        for (IPlayer player : players) {
-            player.movePlayer(windowWidth, windowHeight);
-        }
+    public abstract void registerListeners();
+
+    public abstract void afterMoveOperation();
+
+    /**
+     * Metoda po jedne iteraci hry
+     */
+    public void afterGameIteration() {
     }
 
-    public boolean detectCollisions() {
-        for (int i = 0; i < players.size(); i++) {
-            IPlayer playerOne = players.get(i);
-            for (int j = 0; j < players.size(); j++) {
-                IPlayer playerTwo = players.get(j);
-                if (playerOne.isInCollisionWith((IPlayer) playerTwo)) {
-                    return true;
-                }
-            }
+    /**
+     * Metoda pro vykonani cinnosti po dokonceni hry, napriklad ulozeni, zobrazeni statistiky hry atd.
+     */
+    public void afterGameLoopOperation() {
+    }
+
+    public void gameLoop() {
+        while (running) {
+            movePlayers();
+            afterMoveOperation();
+            windowRenderer.draw(players);
+            afterGameIteration();
+            gameTiming();
         }
-        return false;
+        afterGameLoopOperation();
+    }
+
+    private void gameTiming() {
+        try {
+            Thread.sleep(20);
+        } catch (InterruptedException ex) {
+            Logger.getLogger(GameEngine.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 }

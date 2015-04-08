@@ -1,7 +1,6 @@
 package game.core;
 
 import java.util.EventListener;
-import game.core.MovementDirection;
 
 /**
  *
@@ -15,9 +14,4 @@ public interface IPlayerController extends EventListener {
      * @return
      */
     public MovementDirection getPlayerDirection();
-
-    /**
-     * Change current player direction of movement
-     */
-    public void setPlayerDirection(MovementDirection direction);
 }

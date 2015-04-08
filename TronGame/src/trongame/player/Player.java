@@ -81,12 +81,7 @@ public class Player implements IPlayer {
 
     @Override
     public void drawPath(Graphics2D g) {
-//        for (int i = 0; i < positionHistory.size(); i++) {
-//            g.setColor(playerColor);
-//            Point point = positionHistory.get(i);
-//            g.fillRect(point.x, point.y, 10, 10);
-//        }
-        playerRenderer.drawPlayer(g, this);
+        playerRenderer.draw(g, this);
     }
 
     @Override

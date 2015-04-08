@@ -5,10 +5,12 @@ import game.core.MovementDirection;
 import java.awt.Color;
 import java.awt.Point;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.List;
-import trongame.GameConsole;
+import trongame.TronGame;
 import trongame.controllers.KeyboardController;
+import trongame.controllers.MouseController;
 import trongame.player.Player;
 import trongame.player.PlayerRenderer;
 
@@ -25,7 +27,7 @@ public class TronGameDemo {
         //Define players with their controllers
         KeyboardController playerOneController = new KeyboardController(MovementDirection.RIGHT, KeyEvent.VK_UP, KeyEvent.VK_DOWN, KeyEvent.VK_LEFT, KeyEvent.VK_RIGHT);
         Player playerOne = new Player(new Point(40, 40), Color.green, MovementDirection.RIGHT, playerOneController);
-        //playerOne.setPlayerMouseController(new MouseController(MovementDirection.RIGHT, MouseEvent.BUTTON1, MouseEvent.BUTTON3));
+        playerOne.setPlayerMouseController(new MouseController(MovementDirection.RIGHT, MouseEvent.BUTTON1, MouseEvent.BUTTON3));
         playerOne.setPlayerRenderer(playerRenderer);
         players.add(playerOne);
         KeyboardController playerTwoController = new KeyboardController(MovementDirection.LEFT, KeyEvent.VK_W, KeyEvent.VK_S, KeyEvent.VK_A, KeyEvent.VK_D);
@@ -33,8 +35,7 @@ public class TronGameDemo {
         playerTwo.setPlayerRenderer(playerRenderer);
         players.add(playerTwo);
 
-        GameConsole gameConsole = new GameConsole();
-        gameConsole.registerPlayers(players);
+        TronGame gameConsole = new TronGame(players);
         gameConsole.runGame();
     }
 }

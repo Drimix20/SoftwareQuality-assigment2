@@ -28,37 +28,13 @@ public class KeyboardController implements IPlayerController, KeyListener {
     @Override
     public void keyPressed(KeyEvent e) {
         if (e.getKeyCode() == keyUpMapping) {
-            moveUp();
+            directionOfMove = directionOfMove.tryChangeTo(MovementDirection.UP);
         } else if (e.getKeyCode() == keyDownMapping) {
-            moveDown();
+            directionOfMove = directionOfMove.tryChangeTo(MovementDirection.DOWN);
         } else if (e.getKeyCode() == keyRightMapping) {
-            moveRight();
+            directionOfMove = directionOfMove.tryChangeTo(MovementDirection.RIGHT);
         } else if (e.getKeyCode() == keyLeftMapping) {
-            moveLeft();
-        }
-    }
-
-    private void moveRight() {
-        if (directionOfMove != MovementDirection.LEFT) {
-            directionOfMove = MovementDirection.RIGHT;
-        }
-    }
-
-    private void moveLeft() {
-        if (directionOfMove != MovementDirection.RIGHT) {
-            directionOfMove = MovementDirection.LEFT;
-        }
-    }
-
-    private void moveDown() {
-        if (directionOfMove != MovementDirection.UP) {
-            directionOfMove = MovementDirection.DOWN;
-        }
-    }
-
-    private void moveUp() {
-        if (directionOfMove != MovementDirection.DOWN) {
-            directionOfMove = MovementDirection.UP;
+            directionOfMove = directionOfMove.tryChangeTo(MovementDirection.LEFT);
         }
     }
 
@@ -76,10 +52,4 @@ public class KeyboardController implements IPlayerController, KeyListener {
     public MovementDirection getPlayerDirection() {
         return directionOfMove;
     }
-
-    @Override
-    public void setPlayerDirection(MovementDirection direction) {
-        this.directionOfMove = direction;
-    }
-
 }
