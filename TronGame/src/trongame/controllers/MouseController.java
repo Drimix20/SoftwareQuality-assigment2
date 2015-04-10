@@ -1,9 +1,11 @@
 package trongame.controllers;
 
 import game.core.IPlayerController;
+import game.core.MovementDirection;
+import static game.core.MovementDirection.LEFT;
+import static game.core.MovementDirection.RIGHT;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import game.core.MovementDirection;
 
 /**
  *
@@ -28,14 +30,11 @@ public class MouseController implements IPlayerController, MouseListener {
 
     @Override
     public void mouseClicked(MouseEvent e) {
-        int directionIndex = directionOfMove.ordinal();
         if (e.getButton() == keyLeftMapping) {
-            directionIndex++;
+            directionOfMove = directionOfMove.turnAround(directionOfMove, LEFT);
         } else if (e.getButton() == keyRightMapping) {
-            directionIndex--;
+            directionOfMove = directionOfMove.turnAround(directionOfMove, RIGHT);
         }
-
-        directionOfMove = MovementDirection.values()[(directionIndex + 4) % 4];
     }
 
     @Override
