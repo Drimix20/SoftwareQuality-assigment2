@@ -16,7 +16,7 @@ public class LinearAsciiGradient extends AsciiGradientType {
         this.startPointY = startPointY;
         this.endPointX = endPointX;
         this.endPointY = endPointY;
-        radius = distanceBetweenTwoPoints2(startPointX, startPointY, endPointX, endPointY);
+        radius = distanceBetweenTwoPoints(startPointX, startPointY, endPointX, endPointY);
     }
 
     @Override
@@ -34,7 +34,7 @@ public class LinearAsciiGradient extends AsciiGradientType {
     }
 
     private double pointDistanceFromLine(int x, int y) {
-        return commonLineEquation(x, y) / distanceBetweenTwoPoints2(endPointX, endPointY, startPointX, startPointY);
+        return (commonLineEquation(x, y)) / distanceBetweenTwoPoints(endPointX, endPointY, startPointX, startPointY);
     }
 
     private double computeThirdElementOfLineEquation(int x, int y) {
@@ -42,11 +42,7 @@ public class LinearAsciiGradient extends AsciiGradientType {
     }
 
     private double commonLineEquation(int x, int y) {
-        return ((endPointX - startPointX) * x + (endPointY - startPointY) * y + computeThirdElementOfLineEquation(x, y));
-    }
-
-    private double distanceBetweenTwoPoints2(int x1, int y1, int x2, int y2) {
-        return Math.sqrt(Math.pow(x1 - x2, 2) + Math.pow(y1 - y2, 2));
+        return ((endPointX - startPointX) * x + (endPointY - startPointY) * y + computeThirdElementOfLineEquation(startPointX, startPointY));
     }
 
     @Override
