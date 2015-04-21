@@ -24,6 +24,8 @@ public class ParamsParserTest {
         ParamsParser instance = new ParamsParser();
         AsciiGradientType result = instance.parseParams(scanner);;
         assertTrue(result instanceof RadialAsciiGradient);
+        assertEquals(40, instance.getWidth());
+        assertEquals(30, instance.getHeight());
     }
 
     @Test
@@ -34,5 +36,7 @@ public class ParamsParserTest {
         ParamsParser instance = new ParamsParser();
         AsciiGradientType result = instance.parseParams(scanner);;
         assertTrue(result instanceof LinearAsciiGradient);
+        assertEquals(60, instance.getWidth());
+        assertEquals(30, instance.getHeight());
     }
 }
