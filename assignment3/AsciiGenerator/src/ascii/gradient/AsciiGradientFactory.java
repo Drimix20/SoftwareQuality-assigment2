@@ -27,7 +27,7 @@ public class AsciiGradientFactory {
                     );
                     break;
             }
-        } catch (NumberFormatException ex) {
+        } catch (Exception ex) {
             throw new IllegalArgumentException("Invalid gradient configuration");
         }
 

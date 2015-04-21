@@ -5,11 +5,9 @@
         <group/>
         <group name="SoftwareQuality-assigment2">
             <file>file:/C:/Users/Drimal/Skola/PV260%20Software%20Quality/SoftwareQuality-assigment2/assignment3/AsciiGenerator/src/ascii/gradient/ParamsParser.java</file>
-            <file>file:/C:/Users/Drimal/Skola/PV260%20Software%20Quality/SoftwareQuality-assigment2/assignment3/AsciiGenerator/test/ascii/gradient/SystemOutWriterTest.java</file>
-            <file>file:/C:/Users/Drimal/Skola/PV260%20Software%20Quality/SoftwareQuality-assigment2/assignment3/AsciiGenerator/src/ascii/gradient/AsciiGradient.java</file>
-            <file>file:/C:/Users/Drimal/Skola/PV260%20Software%20Quality/SoftwareQuality-assigment2/assignment3/AsciiGenerator/src/ascii/gradient/SystemOutWriter.java</file>
+            <file>file:/C:/Users/Drimal/Skola/PV260%20Software%20Quality/SoftwareQuality-assigment2/assignment3/AsciiGenerator/src/ascii/gradient/AsciiGradientFactory.java</file>
             <file>file:/C:/Users/Drimal/Skola/PV260%20Software%20Quality/SoftwareQuality-assigment2/assignment3/AsciiGenerator/test/ascii/gradient/AsciiGradientFactoryTest.java</file>
-            <file>file:/C:/Users/Drimal/Skola/PV260%20Software%20Quality/SoftwareQuality-assigment2/assignment3/AsciiGenerator/test/ascii/gradient/RadialAsciiGradientTest.java</file>
+            <file>file:/C:/Users/Drimal/Skola/PV260%20Software%20Quality/SoftwareQuality-assigment2/assignment3/AsciiGenerator/test/ascii/gradient/ParamsParserTest.java</file>
         </group>
     </open-files>
 </project-private>

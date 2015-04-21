@@ -14,8 +14,12 @@ public class ParamsParser {
 
     public AsciiGradientType parseParams(Scanner inputStream) {
         String[] sizeConfiguration = inputStream.nextLine().split("\\s+");
-        width = Integer.parseInt(sizeConfiguration[0]);
-        height = Integer.parseInt(sizeConfiguration[1]);
+        try {
+            width = Integer.parseInt(sizeConfiguration[0]);
+            height = Integer.parseInt(sizeConfiguration[1]);
+        } catch (Exception ex) {
+            throw new IllegalArgumentException("Invalid dimension input");
+        }
         colors = inputStream.nextLine().toCharArray();
         String[] gradientConfiguration = inputStream.nextLine().split("\\s+");
 
