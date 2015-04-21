@@ -20,17 +20,9 @@ public class LinearAsciiGradient extends AsciiGradientType {
     }
 
     @Override
-    String plotGradient() {
-        String output = "";
-        for (int row = 0; row < height; row++) {
-            for (int column = 0; column < width; column++) {
-                double distance = pointDistanceFromLine(column, row);
-                char str1 = selectColorForCurrentPosition(distance);
-                output += str1;
-            }
-            output += "\n";
-        }
-        return output;
+    public String computeGradient(int row, int column) {
+        double distance = pointDistanceFromLine(column, row);
+        return selectColorForCurrentPosition(distance) + "";
     }
 
     private double pointDistanceFromLine(int x, int y) {

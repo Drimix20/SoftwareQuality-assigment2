@@ -23,7 +23,7 @@ public abstract class AsciiGradientType {
         this.colors = colors;
     }
 
-    abstract String plotGradient();
+    abstract String computeGradient(int row, int column);
 
     protected char selectColorForCurrentPosition(double distance) {
         int stretchIndex = (int) ((distance / radius) * colors.length);

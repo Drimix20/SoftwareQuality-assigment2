@@ -14,7 +14,7 @@ public class AsciiGradient {
     public static void main(String[] args) {
         ParamsParser parser = new ParamsParser();
         AsciiGradientType gradient = parser.parseParams(new Scanner(System.in));
-        String plotGradient = gradient.plotGradient();
-        System.out.println(plotGradient);
+        SystemOutWriter writer = new SystemOutWriter(gradient);
+        writer.writeToSystemOutput(parser.getWidth(), parser.getHeight());
     }
 }

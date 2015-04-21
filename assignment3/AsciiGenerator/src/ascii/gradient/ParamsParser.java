@@ -17,12 +17,20 @@ public class ParamsParser {
         width = Integer.parseInt(sizeConfiguration[0]);
         height = Integer.parseInt(sizeConfiguration[1]);
         colors = inputStream.nextLine().toCharArray();
-        String[] gradientType = inputStream.nextLine().split("\\s+");
+        String[] gradientConfiguration = inputStream.nextLine().split("\\s+");
 
-        AsciiGradientType gradient = AsciiGradientFactory.getGradientType(gradientType);
+        AsciiGradientType gradient = AsciiGradientFactory.getGradientType(gradientConfiguration);
         gradient.setDimension(width, height);
         gradient.setColors(colors);
 
         return gradient;
+    }
+
+    public int getWidth() {
+        return width;
+    }
+
+    public int getHeight() {
+        return height;
     }
 }

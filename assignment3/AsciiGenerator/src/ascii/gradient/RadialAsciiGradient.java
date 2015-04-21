@@ -13,15 +13,8 @@ public class RadialAsciiGradient extends AsciiGradientType {
     }
 
     @Override
-    public String plotGradient() {
-        String output = "";
-        for (int row = 0; row < height; row++) {
-            for (int column = 0; column < width; column++) {
-                double dist = distanceBetweenTwoPoints(row, column, centerY, centerX);
-                output += selectColorForCurrentPosition(dist);
-            }
-            output += "\n";
-        }
-        return output;
+    public String computeGradient(int row, int column) {
+        double dist = distanceBetweenTwoPoints(row, column, centerY, centerX);
+        return selectColorForCurrentPosition(dist) + "";
     }
 }
