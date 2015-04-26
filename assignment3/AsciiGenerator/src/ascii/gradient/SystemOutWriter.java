@@ -3,6 +3,7 @@ package ascii.gradient;
 /**
  *
  * @author Drimal
+ * @author Novak
  */
 public class SystemOutWriter {
 

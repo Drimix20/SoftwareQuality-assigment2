@@ -4,7 +4,8 @@ import java.util.Scanner;
 
 /**
  *
- * @author martin
+ * @author Drimal
+ * @author Novak
  */
 public class AsciiGradient {
 

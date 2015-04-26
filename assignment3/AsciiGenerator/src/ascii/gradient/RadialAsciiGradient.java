@@ -2,7 +2,8 @@ package ascii.gradient;
 
 /**
  *
- * @author martin
+ * @author Drimal
+ * @author Novak
  */
 public class RadialAsciiGradient extends AsciiGradientType {
 
