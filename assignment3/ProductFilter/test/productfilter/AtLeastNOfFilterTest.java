@@ -1,9 +1,7 @@
 package productfilter;
 
 import static org.junit.Assert.assertEquals;
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
 import static org.mockito.Mockito.*;
 
 /**
@@ -12,22 +10,18 @@ import static org.mockito.Mockito.*;
  */
 public class AtLeastNOfFilterTest {
 
-    @Rule
-    public ExpectedException expected = ExpectedException.none();
     private Filter[] filters;
     private AtLeastNOfFilter instance;
 
-    @Test
+    @Test(expected = IllegalArgumentException.class)
     public void testConstructorThrowsIllegalArgumentException() {
-        expected.expect(IllegalArgumentException.class);
 
-        filters = new Filter[]{mock(Filter.class)};
+        filters = new Filter[]{new TestFilter()};
         instance = new AtLeastNOfFilter(0, filters);
     }
 
-    @Test
+    @Test(expected = FilterNeverSucceeds.class)
     public void testConstructorThrowsFilterNeverSucceeds() {
-        expected.expect(FilterNeverSucceeds.class);
 
         filters = new Filter[]{mock(Filter.class)};
         instance = new AtLeastNOfFilter(3, filters);
@@ -35,7 +29,6 @@ public class AtLeastNOfFilterTest {
 
     @Test
     public void testFilterPassWhenAllFiltersPass() {
-        expected = ExpectedException.none();
 
         filters = new Filter[2];
         filters[0] = mock(Filter.class);
@@ -50,7 +43,6 @@ public class AtLeastNOfFilterTest {
 
     @Test
     public void testFilterPassWhenMoreFiltersPass() {
-        expected = ExpectedException.none();
 
         filters = new Filter[3];
         filters[0] = mock(Filter.class);
@@ -67,8 +59,6 @@ public class AtLeastNOfFilterTest {
 
     @Test
     public void testFilterFailWhenLessThanNFiltersPass() {
-        expected = ExpectedException.none();
-
         filters = new Filter[3];
         filters[0] = mock(Filter.class);
         filters[1] = mock(Filter.class);
@@ -80,5 +70,14 @@ public class AtLeastNOfFilterTest {
         instance = new AtLeastNOfFilter(3, filters);
         boolean passes = instance.passes(any());
         assertEquals("Filter should passes", false, passes);
+    }
+
+    private class TestFilter implements Filter<Object> {
+
+        @Override
+        public boolean passes(Object item) {
+            return true;
+        }
+
     }
 }
